@@ -1,15 +1,16 @@
 <?php
-//ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ //init_set('display_startup_errors', 1);
+ //error_reporting(E_ALL);
 try
 {
 
+include('includes/config.php');
 include('includes/classes/Account.php');
 include('includes/classes/Constants.php');
-$account = new Account();
+$account = new Account($conn);
 //$account->register();
-e//cho "here";
+//cho "here";
 
 include("includes/handlers/register-handler.php");
 //echo "register handler";
@@ -28,12 +29,9 @@ function getInputValue($name){
 		echo $_POST[$name];
 	}
 }
-echo $account->getError(Constants::$userNameCharacters);
-
 
 ?>
 
-<!DOCTYPE html>
 <html>
 <head>
 	<title>Spotify Clone</title>
@@ -42,7 +40,8 @@ echo $account->getError(Constants::$userNameCharacters);
 	<div class="inputContainer">
 		<form id="loginForm" action="register.php" method="POST">
 			<h2>Login to your account </h2>
-			<p>
+			<p> 
+				<?php echo $account->getError(Constants::$loginFailed);?>
 				<label for="loginUserName">Username</label>
 				<input id="loginUserName" type="text" name="loginUserName" placeholder="e.g. Mohamed Alaa"  required>
 				
@@ -62,6 +61,7 @@ echo $account->getError(Constants::$userNameCharacters);
 			<h2>Create your free account </h2>
 			<p>
 				<?php echo $account->getError(Constants::$userNameCharacters);?>
+				<?php echo $account->getError(Constants::$userNameTaken);?>
 				<label for="userName">Username</label>
 				<input id="userName" type="text" name="userName" placeholder="e.g. Mohamed Alaa" value="<?= getInputValue('userName');?>" required>
 				
@@ -82,6 +82,7 @@ echo $account->getError(Constants::$userNameCharacters);
 			<p>
 				<?php echo $account->getError(Constants::$emailsDoNotMatch);?>
 				<?php echo $account->getError(Constants::$emailInvalide);?>
+				<?php echo $account->getError(Constants::$emailTaken);?>
 
 				<label for="email">Email</label>
 				<input id="email" type="email" name="email" placeholder="e.g. MohamedAlaa@mohameddemos.com" value="<?= getInputValue('email');?>" required>
@@ -106,10 +107,12 @@ echo $account->getError(Constants::$userNameCharacters);
 			</p>
 			<p>
 				<label for="Password2">Confirm Password</label>
-				<input id="Password2" type="password" name="pasword2"  placeholder="confirm your password"  required>
+				<input id="Password2" type="password" name="password2"  placeholder="confirm your password"  required>
 				
 			</p>
 			<button type="submit" name="registerButton" >SIGN UP</button>
+
+
 
 		</form>
 

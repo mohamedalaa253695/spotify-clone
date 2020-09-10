@@ -5,7 +5,18 @@
 
 if(isset($_POST['loginButton']))
 {
-	echo "loginbutton pressed";
+	$userName=$_POST['loginUserName'];
+	$password=$_POST['loginPassword'];
+
+	$userExists = $account->login($userName,$password);
+
+	if($userExists)
+	{
+		$_SESSION['userLoggedIn'] = $userName;
+
+		header("Location:index.php");
+	}
+
 
 
 }

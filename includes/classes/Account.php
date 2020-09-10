@@ -1,12 +1,31 @@
 <?php
 
 	class Account
-	{
-		private $errorArray;
+	{	
+
+		private $con ;
+		private  $errorArray;
 			
-		public function __construct()
+		public function __construct($con)
 		{
-			$this->errorArray=array();
+			$this->con= $con;
+			$this->errorArray  = array();
+
+		}
+
+		public function login($username, $password)
+		{
+			$password = md5($password);
+			$query    = mysqli_query($this->con,"SELECT * FROM users WHERE userName='$username' AND password='$password'");
+			if(mysqli_num_rows($query) ==1 )
+			{
+				return true;
+			}
+			else
+			{
+				array_push($this->errorArray,Constants::$loginFailed);
+				return false;
+			}
 		}
 
 		public function register($userName, $firstName, $lastName , $email , $email2 ,$password ,$password2)
@@ -19,7 +38,7 @@
 
 			if(empty($this->errorArray))
 			{
-				return ture;
+				return $this->instertUserDetails($userName, $firstName , $lastName , $email , $password );
 			}
 			else 
 			{
@@ -27,6 +46,8 @@
 			}
 
 		}
+
+
 
 		public function getError($error)
 		{
@@ -38,6 +59,21 @@
 			return "<span class='errorMessage' >$error </span>";
 		}
 
+		private function instertUserDetails($un, $fn , $ln , $em , $pw )
+		{
+			$encryptedPw = md5($pw);
+			$profilePic  = "assets/images/profile-pics/head-emerald.png";
+			$date  		 =  date('Y-m-d');
+
+			$sql = "INSERT INTO users VALUES ('','$un','$fn','$ln','$em','$encryptedPw','$date','$profilePic')";
+
+
+
+			$result = $this->con->query($sql);
+			 //$this->con = null;  
+			return $result;
+		}
+
 		private	function validateUserName($userName)
 		{
 			if(strlen($userName)>25 || strlen($userName)<5)
@@ -47,6 +83,19 @@
 			}
 
 			//TODO :check if username exist
+			print($userName);
+			$sql = "SELECT userName FROM users WHERE userName='$userName'";
+			$result = $this->con->query($sql);
+			print_r( $result);
+
+			if(mysqli_num_rows($result) != 0)
+			{	
+				
+				array_push($this->errorArray,Constants::$userNameTaken);
+				return;
+			}
+
+
 		}
 
 		private	function validateFirstName($firstName)
@@ -79,6 +128,18 @@
 				return;
 			}
 
+			$sql = "SELECT email FROM users WHERE email='$email'" ;
+			$result = $this->con->query($sql);
+
+			echo "<br>";
+			echo $email;
+			print_r($result);
+			if(mysqli_num_rows($result) != 0)
+			{
+				array_push($this->errorArray,Constants::$emailTaken);
+				return;
+			}
+
 
 		}
 		private	function validatePassword($password , $password2)
@@ -100,6 +161,7 @@
 				return ;
 			}
 		}
+
 
 
 	}

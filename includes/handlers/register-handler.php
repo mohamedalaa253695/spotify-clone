@@ -1,54 +1,57 @@
-
 <?php 
 
-function sanitizeFormPassword($inputText)
-{
-	$inputText=strip_tags($inputText);
+function sanitizeFormPassword($inputText) {
+	$inputText = strip_tags($inputText);
 	return $inputText;
-
 }
 
-function sanitizeFormUserName($inputText)
-{
-	$inputText=strip_tags($inputText);
-	$inputText= str_replace(" ","",$inputText);
+function sanitizeFormUserName($inputText) {
+	$inputText = strip_tags($inputText);
+	$inputText = str_replace(" ", "", $inputText);
 	return $inputText;
-
 }
-function sanitizeFormString($inputText)
-{
-	$inputText=$_POST['inputText'];
-	$inputText=strip_tags($inputText);
-	$inputText= str_replace(" ","",$inputText);
-	$inputText= ucfirst(strtolower($inputText));
-	return $inputText;
 
+function sanitizeFormString($inputText) {
+	$inputText = strip_tags($inputText);
+	$inputText = str_replace(" ", "", $inputText);
+	$inputText = ucfirst(strtolower($inputText));
+	return $inputText;
 }
 
 
 if(isset($_POST['registerButton']))
 {
-	$userName= sanitizeFormUserName( $_POST['userName'] ) ;
-	$firstName= sanitizeFormString($POST['firstName']);
-	$lastName= sanitizeFormString($POST['lastName']);
-	$email= sanitizeFormString($POST['email']);
-	$email2= sanitizeFormString($POST['email2']);
-	$password= sanitizeFormPassword($POST['password']);
-	$password2= sanitizeFormPassword($POST['password2']);
 
-	$userRegistered = $account->register($userName,$firstName,$lastName,$email,$email,$password,$password2);
-	
-	if($userRegistered)
+
+	$userName= sanitizeFormUserName( $_POST['userName'] ) ;
+	$firstName= sanitizeFormString($_POST['firstName']);
+	$lastName= sanitizeFormString($_POST['lastName']);
+	$email= sanitizeFormString($_POST['email']);
+	$email2= sanitizeFormString($_POST['email2']);
+	$password= sanitizeFormPassword($_POST['password']);
+	$password2= sanitizeFormPassword($_POST['password2']);
+
+
+
+	$userRegistered = $account->register($userName,$firstName,$lastName,$email,$email2,$password,$password2);
+
+
+	// 
+	//header("Location : index.php");
+	if($userRegistered == true)
 	{
-		header("Location : index.php");
+	 	$_SESSION['userLggedIn'] = $userName;
+		header("Location:index.php");
+		//exit();
 	}
+
+	
 
 }
 	
 
 	
 	
-	//echo $userName;
 
 
 ?>
