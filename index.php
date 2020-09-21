@@ -1,53 +1,35 @@
-<?php 
 
-include("includes/config.php");
-
-//session_destroy();
-if(isset($_SESSION['userLoggedIn']))
-{
-$userLoggedIn=$_SESSION['userLoggedIn'];
-
-}
-else
-{
-	header("Location:register.php");
-}
+<?php include('includes/header.php');?>		
 
 
 
 
-?>
+<h1  class="pageHeadingBig">that should work</h1>
 
+<div class="gridViewContainer">
+	<?php
 
+		$albumQuery = mysqli_query($conn,"SELECT * FROM albums ORDER By RAND()");
+		while($row=mysqli_fetch_array($albumQuery))
+		{
 
-  
-<!DOCTYPE html>
-<html>
-<head>
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<title>Welcom to spotify Clone</title>
-</head>
-<body>
-	
-	<div class="mainContainer">
+			// echo $row['title'];
 
-		<div id="topContainer">
-			<?php include('includes/navBarContainer.php')?>	
-
-		</div>
-		<div id="nowPlayingBarContainer">
-			<?php include('includes/nowPlayingBar.php');?>
-
-			<div class="mainViewContainer">
-				<div class="mainContainer">
-					
+			echo "<div class='gridViewItem'>
+					<a href='album.php?id=".$row['id']."'>
+					<img src='".$row['artworkPath']."'>
+					<div class='gridViewInfo'>"
+						.$row['title'].
+					"</div>
+					</a>
 				</div>
-			</div>
-		</div>
+			";
+		}
 
-	</div>
+	?>
 
-	
+</div>
 
-</body>
-</html>
+
+<?php include('includes/footer.php');?>			
+
