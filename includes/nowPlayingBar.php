@@ -43,32 +43,36 @@ $jsonArray=json_encode($resultArray);
 			});
 
 
-			audioElement.setTrack(data.path);
-			audioElement.pause();
+			audioElement.setTrack(track);
+			playSong();
 		});
-
-
-
 
 		if(play == true)
 		{
 			audioElement.play();
 		}
-
-		
+	
 	}
 
-	function playSong(){
-			$(".controlButton.play").hide();
-			$(".controlButton.pause").show();
-			audioElement.play();
-		}
+	function playSong()
+	{
+		if(audioElement.audio.currentTime == 0)
+		{
+			$.post("includes/handlers/ajax/updatePlays.php" , {songId:audioElement.currentlyPlaying.id })
 
-		function pauseSong(){
-			$(".controlButton.play").show();
-			$(".controlButton.pause").hide();
-			audioElement.pause();
 		}
+		
+		$(".controlButton.play").hide();
+		$(".controlButton.pause").show();
+		audioElement.play();
+	}
+
+	function pauseSong()
+	{
+		$(".controlButton.play").show();
+		$(".controlButton.pause").hide();
+		audioElement.pause();
+	}
 </script>
 
 
