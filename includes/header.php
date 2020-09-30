@@ -9,7 +9,8 @@ include("includes/classes/Song.php");
 //session_destroy();
 if(isset($_SESSION['userLoggedIn']))
 {
-$userLoggedIn=$_SESSION['userLoggedIn'];
+	$userLoggedIn=$_SESSION['userLoggedIn'];
+	echo "<script>userLoggedIn ='$userLoggedIn'; </script>";
 
 }
 else
@@ -41,9 +42,11 @@ else
 		<div id="topContainer">
 			<?php include('includes/navBarContainer.php')?>	
 
-		</div>
+		
 	
 			
 
 			<div id="mainViewContainer">
 				<div id="mainContent">
+
+

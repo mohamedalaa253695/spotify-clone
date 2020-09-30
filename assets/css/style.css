@@ -169,9 +169,12 @@ body{
 	width:125px;
 }
 
-#topContainer{
-	min-height:100%;
-	width:100%;
+
+#topContainer {
+
+    min-height: 100%;
+    width: 100%;
+    
 }
 
 #navBarContainer{
@@ -246,6 +249,7 @@ body{
 .pageHeadingBig {
     padding: 20px;
     text-align: center;
+    color: #75C85F;
 }
 
 .gridViewItem {
