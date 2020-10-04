@@ -205,16 +205,16 @@ function shuffleArray(a) {
 
 			$.post("includes/handlers/ajax/getArtistJson.php", { artistId: track.artist }, function(data) {
 			var artist = JSON.parse(data);
-			$(".artistName span").text(artist.name);
-			$(".artistName span").attr("onclick","openPage('artist.php?id="+ artist.id+"')");
+			$(".trackInfo .artistName span").text(artist.name);
+			$(".trackInfo .artistName span").attr("onclick","openPage('artist.php?id="+ artist.id+"')");
 			});
 
 			$.post("includes/handlers/ajax/getAlbumJson.php", { albumId: track.album }, function(data) {
 			var album = JSON.parse(data);
 			//console.log(album);
 			$(".albumLink img").attr("src",album.artworkPath);
-			$(".albumLink img").attr("onclick","openPage('album.php?id="+ album.id+"')");
-			$(".trackName span").attr("onclick","openPage('album.php?id="+ album.id+"')");
+			$(" .albumLink img").attr("onclick","openPage('album.php?id="+ album.id+"')");
+			$(".trackInfo .trackName span").attr("onclick","openPage('album.php?id="+ album.id+"')");
 			});
 
 
