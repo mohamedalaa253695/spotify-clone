@@ -32,6 +32,39 @@ function openPage(url) {
 
 }
 
+function createPlaylist(){
+	var popup = prompt("Please enter the name of your playlist");
+	if(popup != null){
+		$.post("includes/handlers/ajax/createPlaylist.php",{name: popup , username: userLoggedIn})
+		.done(function(error){
+
+			if(error != null){
+				alert(error);
+				return;
+			}
+			openPage("yourMusic.php");
+
+		});
+	}
+
+}
+
+function deletePlaylist(playlistId){
+	var prompt = confirm("Are you sure want to delete this playlist? ");
+	if(prompt == true){
+			$.post("includes/handlers/ajax/deletePlaylist.php",{playlistId:playlistId})
+			.done(function(error){
+
+				if(error != null){
+					alert(error);
+					return;
+				}
+				openPage("yourMusic.php");
+
+		});
+}
+}
+
 function formatTime(seconds)
 {
 	var time = Math.round(seconds);
